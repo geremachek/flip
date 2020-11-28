@@ -1,11 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """
     flip - Jonah G. Rongstad (2020)
 """
 
 from curses import *
-from sys import argv
+from sys import argv, stderr
 
 s = initscr()
 noecho()
@@ -16,7 +16,7 @@ def main():
     if len(argv) == 1:
         endwin()
 
-        print("You must supply arguments!")
+        print("You must supply arguments!", file=stderr)
 
         exit()
 
@@ -27,7 +27,7 @@ def main():
     if cards == IOError:
         endwin()
 
-        print("Invalid file name(s)!")
+        print("Invalid file name(s)!", file=stderr)
 
         exit()
 
@@ -57,27 +57,25 @@ def main():
             endwin()
             exit()
         elif ch == ord("l") or ch == KEY_RIGHT:
-            if card == len(cards) - 1:
-                card = 0
-            else:
-                card += 1
-
-            s.clear()
-            disp_file(cards[card])
-
-            s.refresh()
+            roll_over(card, len(cards) - 1, 0, 1)
+            draw_screen(cards[card])
         elif ch == ord("h") or ch == KEY_LEFT:
-            if card == 0:
-                card = len(cards) - 1
-            else:
-                card -= 1
-
-            s.clear()
-            disp_file(cards[card])
-
-            s.refresh()
+            roll_over(card, 0, len(cards) - 1, -1)
+            draw_screen(cards[card])
 
         disp_bar(card + 1, len(cards))
+
+def draw_screen(file):
+    s.clear()
+    disp_file(file)
+
+    s.refresh()
+
+def roll_over(card, edge, roll, add):
+    if card == edge:
+        card = roll
+    else:
+        card += add
 
 def disp_file(lines):
     height, _ = s.getmaxyx()
@@ -92,7 +90,7 @@ def disp_file(lines):
 def disp_bar(index, total):
     height, _ = s.getmaxyx()
 
-    s.addstr(height - 1, 0, str(index) + "/" + str(total), A_BOLD)
+    s.addstr(height - 1, 0, str(index) + "/" + str(total), A_REVERSE)
 
 def get_files():
     cards = []

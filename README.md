@@ -11,5 +11,13 @@ flip [FILE...]
 
 **Why:**
 
-Maybe you want to review some information or deliver a quick and minimal presentation.
+Maybe you want to review some information or deliver a quick presentation.
 Also, it's really minimal. (~110 lines of pure python + curses)
+
+**Installation**
+
+```
+git clone http://github.com/geremachek/flip
+cd flip/
+pip install --user .
+```
