@@ -32,6 +32,7 @@ def main():
         exit()
 
     card = 0
+    display_bar = True;
 
     disp_file(cards[card])
     disp_bar(card + 1, len(cards))
@@ -57,13 +58,19 @@ def main():
             endwin()
             exit()
         elif ch == ord("l") or ch == KEY_RIGHT:
-            roll_over(card, len(cards) - 1, 0, 1)
+            card = roll_over(card, len(cards) - 1, 0, 1)
             draw_screen(cards[card])
         elif ch == ord("h") or ch == KEY_LEFT:
-            roll_over(card, 0, len(cards) - 1, -1)
+            card = roll_over(card, 0, len(cards) - 1, -1)
             draw_screen(cards[card])
+        elif ch == ord("b"):
+            display_bar = not display_bar
 
-        disp_bar(card + 1, len(cards))
+            if not display_bar:
+                s.addstr(height-1, 0, ' ' * len(str(card+1) + "/" + str(len(cards))))
+
+        if display_bar:
+            disp_bar(card + 1, len(cards))
 
 def draw_screen(file):
     s.clear()
@@ -71,11 +78,11 @@ def draw_screen(file):
 
     s.refresh()
 
-def roll_over(card, edge, roll, add):
-    if card == edge:
-        card = roll
+def roll_over(c, edge, roll, add):
+    if c == edge:
+        return roll
     else:
-        card += add
+        return add
 
 def disp_file(lines):
     height, _ = s.getmaxyx()
