@@ -11,9 +11,12 @@ flip [FILE...]
 
 **Keybinds:**
 
-<kbd>h</kbd> / <kbd>LEFT</kbd>: Move back on file
-<kbd>l</kbd> / <kbd>RIGHT</kbd>: Move forward on file
+<kbd>h</kbd> / <kbd>LEFT</kbd>: Move back one file
+
+<kbd>l</kbd> / <kbd>RIGHT</kbd>: Move forward one file
+
 <kbd>q</kbd>: Quit
+
 <kbd>b</kbd>: Toggle the status bar
 
 **Why:**
