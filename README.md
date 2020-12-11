@@ -18,8 +18,3 @@ flip [FILE...]
 <kbd>q</kbd>: Quit
 
 <kbd>b</kbd>: Toggle the status bar
-
-**Why:**
-
-Maybe you want to review some information or deliver a quick presentation.
-Also, it's really minimal. (~110 lines of pure python + curses)
