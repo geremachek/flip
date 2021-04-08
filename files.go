@@ -5,10 +5,9 @@ import (
 	"io/ioutil"
 )
 
-// GetDeck
 // Construct a "deck" of files from a list of paths
 
-func GetDeck(files []string) ([][]string, error) {
+func getDeck(files []string) ([][]string, error) {
 	var deck [][]string
 
 	for _, f := range files {

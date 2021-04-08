@@ -6,12 +6,12 @@ import (
 	"github.com/geremachek/flip/draw"
 )
 
-// CheckResize
 // Resize if it the terminal is out of sync with the program
 
-func (sd *SlideDeck) Resize(w, h int) {
-	sd.maxWidth = w
+func (sd *SlideDeck) resize() {
+	w, h := sd.screen.Size()
 
+	sd.maxWidth = w
 	realHeight := h
 
 	if sd.barVisible { // we need to make room for the bar
@@ -20,13 +20,12 @@ func (sd *SlideDeck) Resize(w, h int) {
 
 	sd.maxHeight = realHeight
 
-	sd.Redraw()
+	sd.redraw()
 }
 
-// DrawFile
 // Draw a file to the screen, wrapping lines
 
-func (sd SlideDeck) DrawFile() {
+func (sd SlideDeck) drawFile() {
 	var fitLines []string
 
 	for _, line := range sd.deck[sd.card] {
@@ -47,20 +46,16 @@ func (sd SlideDeck) DrawFile() {
 	}
 }
 
-// MoveSlide
 // Move a slide, either left or right
 
-func (sd *SlideDeck) MoveSlide(n int) {
+func (sd *SlideDeck) moveSlide(n int) {
 	var (
-		edge int
-		start int
 		len int = len(sd.deck) - 1
+		edge int = len
+		start int = 0
 	)
 
-	if n == 1 {
-		edge = len
-		start = 0
-	} else if n == -1 {
+	if n < 0 {
 		edge = 0
 		start = len
 	}
@@ -72,24 +67,20 @@ func (sd *SlideDeck) MoveSlide(n int) {
 	}
 }
 
-// DrawBar
 // Draw a status bar below the displayed file, if the bar is set to visible
 
-func (sd *SlideDeck) DrawBar() {
+func (sd *SlideDeck) drawBar() {
 	if sd.barVisible {
-		style := tcell.StyleDefault.Underline(true)
-		info := fmt.Sprintf("%d/%d", sd.card + 1, len(sd.deck))
+		style := tcell.StyleDefault.Bold(true).Underline(true)
+		info := fmt.Sprintf("%d / %d", sd.card + 1, len(sd.deck))
 
-		w, h := sd.screen.Size()
-
-		draw.Addstr(sd.screen, style, w-len(info), h-1, info)
+		draw.Addstr(sd.screen, style, 0, sd.maxHeight+1, info)
 	}
 }
 
-// ToggleBar
 // Taggle the status bar
 
-func (sd *SlideDeck) ToggleBar() {
+func (sd *SlideDeck) toggleBar() {
 	sd.barVisible = !sd.barVisible
 
 	if !sd.barVisible { // we want to hide the bar
@@ -99,14 +90,13 @@ func (sd *SlideDeck) ToggleBar() {
 	}
 }
 
-// Redraw
 // Clear, and redraw the screen
 
-func (sd *SlideDeck) Redraw() {
+func (sd *SlideDeck) redraw() {
 	sd.screen.Clear()
 	
-	sd.DrawFile()
-	sd.DrawBar()
+	sd.drawFile()
+	sd.drawBar()
 
 	sd.screen.Show()
 }
