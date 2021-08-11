@@ -2,7 +2,7 @@ package slidedeck
 
 import "github.com/gdamore/tcell"
 
-type SlideDeck struct {
+type slideDeck struct {
 	deck [][]string
 	card int
 
@@ -14,7 +14,7 @@ type SlideDeck struct {
 	screen tcell.Screen
 }
 
-func NewSlideDeck(d [][]string, bv bool) (SlideDeck, error) {
+func NewSlideDeck(d [][]string, bv bool) (slideDeck, error) {
 	if s, err := tcell.NewScreen(); err == nil {
 		w, h := s.Size()
 
@@ -22,8 +22,8 @@ func NewSlideDeck(d [][]string, bv bool) (SlideDeck, error) {
 			h -= 2; // make room for the bar
 		}
 
-		return SlideDeck { d, 0, bv, w, h, s }, nil
+		return slideDeck { d, 0, bv, w, h, s }, nil
 	} else {
-		return SlideDeck{}, err
+		return slideDeck{}, err
 	}
 }

@@ -8,7 +8,7 @@ import (
 
 // Resize if it the terminal is out of sync with the program
 
-func (sd *SlideDeck) resize() {
+func (sd *slideDeck) resize() {
 	w, h := sd.screen.Size()
 
 	sd.maxWidth = w
@@ -25,7 +25,7 @@ func (sd *SlideDeck) resize() {
 
 // Draw a file to the screen, wrapping lines
 
-func (sd SlideDeck) drawFile() {
+func (sd slideDeck) drawFile() {
 	var fitLines []string
 
 	for _, line := range sd.deck[sd.card] {
@@ -48,7 +48,7 @@ func (sd SlideDeck) drawFile() {
 
 // Move a slide, either left or right
 
-func (sd *SlideDeck) moveSlide(n int) {
+func (sd *slideDeck) moveSlide(n int) {
 	var (
 		len int = len(sd.deck) - 1
 		edge int = len
@@ -69,10 +69,10 @@ func (sd *SlideDeck) moveSlide(n int) {
 
 // Draw a status bar below the displayed file, if the bar is set to visible
 
-func (sd *SlideDeck) drawBar() {
+func (sd *slideDeck) drawBar() {
 	if sd.barVisible {
-		style := tcell.StyleDefault.Bold(true).Underline(true)
-		info := fmt.Sprintf("%d / %d", sd.card + 1, len(sd.deck))
+		style := tcell.StyleDefault.Underline(true)
+		info := fmt.Sprintf("%d/%d", sd.card + 1, len(sd.deck))
 
 		draw.Addstr(sd.screen, style, 0, sd.maxHeight+1, info)
 	}
@@ -80,7 +80,7 @@ func (sd *SlideDeck) drawBar() {
 
 // Taggle the status bar
 
-func (sd *SlideDeck) toggleBar() {
+func (sd *slideDeck) toggleBar() {
 	sd.barVisible = !sd.barVisible
 
 	if !sd.barVisible { // we want to hide the bar
@@ -92,7 +92,7 @@ func (sd *SlideDeck) toggleBar() {
 
 // Clear, and redraw the screen
 
-func (sd *SlideDeck) redraw() {
+func (sd *slideDeck) redraw() {
 	sd.screen.Clear()
 	
 	sd.drawFile()

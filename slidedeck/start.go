@@ -2,7 +2,7 @@ package slidedeck
 
 import "github.com/gdamore/tcell"
 
-func (sd *SlideDeck) Start() error {
+func (sd *slideDeck) Start() error {
 	if err := sd.screen.Init(); err == nil {
 		var (
 			input tcell.Event

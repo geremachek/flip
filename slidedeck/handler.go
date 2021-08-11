@@ -2,7 +2,7 @@ package slidedeck
 
 import "github.com/gdamore/tcell"
 
-func (sd *SlideDeck) handle(key *tcell.EventKey) bool {
+func (sd *slideDeck) handle(key *tcell.EventKey) bool {
 	switch key.Key() {
 		case tcell.KeyLeft:   sd.moveSlide(-1)
 		case tcell.KeyRight:  sd.moveSlide(1)
