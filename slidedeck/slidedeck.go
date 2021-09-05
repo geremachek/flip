@@ -14,7 +14,7 @@ type slideDeck struct {
 	screen tcell.Screen
 }
 
-func NewSlideDeck(d [][]string, bv bool) (slideDeck, error) {
+func NewSlideDeck(d [][]string, bv bool) (*slideDeck, error) {
 	if s, err := tcell.NewScreen(); err == nil {
 		w, h := s.Size()
 
@@ -22,8 +22,8 @@ func NewSlideDeck(d [][]string, bv bool) (slideDeck, error) {
 			h -= 2; // make room for the bar
 		}
 
-		return slideDeck { d, 0, bv, w, h, s }, nil
+		return &slideDeck { d, 0, bv, w, h, s }, nil
 	} else {
-		return slideDeck{}, err
+		return &slideDeck{}, err
 	}
 }

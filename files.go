@@ -14,7 +14,7 @@ func getDeck(files []string) ([][]string, error) {
 		data, err := ioutil.ReadFile(f)
 
 		if err != nil {
-			return [][]string{}, err
+			return nil, err
 		}
 
 		deck = append(deck, strings.Split(strings.TrimRight(string(data), "\n"), "\n"))
