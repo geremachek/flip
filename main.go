@@ -28,4 +28,5 @@ func main() {
 
 func printError(msg string) {
 	fmt.Fprintln(os.Stderr, "flip: " + msg)
+	os.Exit(1)
 }
