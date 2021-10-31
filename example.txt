@@ -1,0 +1,8 @@
+This is some text on the first slide
+
+This is real nice, isn't it?
+
+	Hello
+		World
+--SLIDE--
+This is some text on the second

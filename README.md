@@ -1,7 +1,6 @@
-<h1 align="center">flip 📖</h1>
+# flip
 
-<p align="center">A simple command that lets you "flip" through files</p>
-<br><br>
+A simple command that lets you "flip" through files
 
 **Usage:**
 
@@ -11,10 +10,16 @@ flip [FILE...]
 
 **Keybinds:**
 
-<kbd>h</kbd> / <kbd>LEFT</kbd>: Move back one file
+`h` / `LEFT`: Move back one file
 
-<kbd>l</kbd> / <kbd>RIGHT</kbd>: Move forward one file
+`l` / `RIGHT`: Move forward one file
 
-<kbd>q</kbd>: Quit
+`q`: Quit
 
-<kbd>b</kbd>: Toggle the status bar
+`b`: Toggle the status bar
+
+**File format:*
+
+Individual files will be broken up into individual "slides" by the `\n--SLIDE--\n` token.
+
+See `./example.txt`
