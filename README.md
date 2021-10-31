@@ -18,7 +18,7 @@ flip [FILE...]
 
 `b`: Toggle the status bar
 
-**File format:*
+**File format:**
 
 Individual files will be broken up into individual "slides" by the `\n--SLIDE--\n` token.
 
