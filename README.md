@@ -6,6 +6,7 @@ A simple command that lets you "flip" through files
 
 ```
 flip [FILE...]
+  -s	Read slides from stdin
 ```
 
 **Keybinds:**
