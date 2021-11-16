@@ -26,20 +26,22 @@ func (sd *slideDeck) resize() {
 // Draw a file to the screen, wrapping lines
 
 func (sd slideDeck) drawFile() {
-	var fitLines []string
+	var fitLines [][]rune
 
 	for _, line := range sd.deck[sd.card] {
-		if len(line) > sd.maxWidth { // the line is too long to be displayed
-			fitLines = append(fitLines, line[:sd.maxWidth])
-			fitLines = append(fitLines, line[sd.maxWidth:])
+		rLine := []rune(line)
+
+		if len(rLine) > sd.maxWidth { // the line is too long to be displayed
+			fitLines = append(fitLines, rLine[:sd.maxWidth])
+			fitLines = append(fitLines, rLine[sd.maxWidth:])
 		} else {
-			fitLines = append(fitLines, line)
+			fitLines = append(fitLines, rLine)
 		}
 	}
 
 	for y, line := range fitLines {
 		if y < sd.maxHeight {
-			draw.Addstr(sd.screen, tcell.StyleDefault, 0, y, line)
+			draw.AddRunes(sd.screen, tcell.StyleDefault, 0, y, []rune(line))
 		} else {
 			break
 		}
@@ -74,7 +76,7 @@ func (sd *slideDeck) drawBar() {
 		style := tcell.StyleDefault.Underline(true)
 		info := fmt.Sprintf("%d/%d", sd.card + 1, len(sd.deck))
 
-		draw.Addstr(sd.screen, style, 0, sd.maxHeight+1, info)
+		draw.AddRunes(sd.screen, style, 0, sd.maxHeight+1, []rune(info))
 	}
 }
 
