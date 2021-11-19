@@ -4,8 +4,6 @@ import (
 	"os"
 	"fmt"
 	"flag"
-	"bufio"
-	"strings"
 	sd "github.com/geremachek/flip/slidedeck"
 )
 
@@ -20,20 +18,7 @@ func main() {
 	args := flag.Args()
 
 	if *stdin { // our slides are coming from stdin
-		var (
-			scanner = bufio.NewScanner(os.Stdin)
-			data strings.Builder
-		)
-
-		// collect the input from stdin
-
-		for scanner.Scan() {
-			data.WriteString(scanner.Text() + "\n")
-		}
-
-		// add our slide(s) from stdin to the slide deck
-
-		slides = append(slides, processSlide(data.String())...)
+		slides = processSlide(os.Stdin)
 	} else if len(args) > 0 { // if there are files supplied as arguments...
 		// read them!
 		

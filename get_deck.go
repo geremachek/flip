@@ -1,8 +1,10 @@
 package main
 
 import (
+	"os"
+	"io"
+	"bufio"
 	"strings"
-	"io/ioutil"
 )
 
 const tab = "    "
@@ -13,13 +15,13 @@ func getDeck(files []string) ([][]string, error) {
 	var deck [][]string
 
 	for _, f := range files {
-		data, err := ioutil.ReadFile(f)
+		reader, err := os.Open(f)
 
 		if err != nil {
 			return nil, err
 		}
 
-		deck = append(deck, processSlide(string(data))...)
+		deck = append(deck, processSlide(reader)...)
 	}
 
 	return deck, nil
@@ -27,20 +29,26 @@ func getDeck(files []string) ([][]string, error) {
 
 // process a slide (splitting it into multiple slides if needed) for display
 
-func processSlide(slide string) (slides [][]string) {
-	// remove trailing newlines (these will take longer to render anyway)
+func processSlide(rd io.Reader) [][]string {
+	var (
+		scanner = bufio.NewScanner(rd)
+		
+		slides = make([][]string, 1)
+		i int
+	)
 
-	trimmed := strings.TrimRight(slide, "\n")
+	for scanner.Scan() {
+		// separate stream into different slides based on the "--SLIDE--" token
 
-	// make sure tabs will render properly :)
+		if line := scanner.Text(); line == "--SLIDE--" {
+			i++
+			slides = append(slides, []string{})
+		} else {
+			// add the line to the slide + tab display hack
 
-	trimmed = strings.ReplaceAll(trimmed, "\t", tab)
-
-	// split up individual files into "slides" with the "--SLIDE--" token
-
-	for _, slide := range strings.Split(trimmed, "\n--SLIDE--\n") {
-		slides = append(slides, strings.Split(slide, "\n"))
+			slides[i] = append(slides[i], strings.ReplaceAll(line, "\t", tab))
+		}
 	}
 
-	return
+	return slides
 }

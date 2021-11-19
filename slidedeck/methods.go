@@ -26,25 +26,31 @@ func (sd *slideDeck) resize() {
 // Draw a file to the screen, wrapping lines
 
 func (sd slideDeck) drawFile() {
-	var fitLines [][]rune
+	var x, y int
 
-	for _, line := range sd.deck[sd.card] {
-		rLine := []rune(line)
+	// move the cursor down and send the cursor to the far left.
 
-		if len(rLine) > sd.maxWidth { // the line is too long to be displayed
-			fitLines = append(fitLines, rLine[:sd.maxWidth])
-			fitLines = append(fitLines, rLine[sd.maxWidth:])
-		} else {
-			fitLines = append(fitLines, rLine)
-		}
+	goDown := func() bool {
+		x = 0
+		y++
+
+		return y >= sd.maxHeight
 	}
 
-	for y, line := range fitLines {
-		if y < sd.maxHeight {
-			draw.AddRunes(sd.screen, tcell.StyleDefault, 0, y, []rune(line))
-		} else {
-			break
+	for _, line := range sd.deck[sd.card] {
+		// draw lines, wrapping if they're too long
+
+		for _, ch := range line {
+			sd.screen.SetContent(x, y, ch, []rune{}, tcell.StyleDefault)
+
+			if x == sd.maxWidth-1 { // we are at the end of the line, kid.
+				if goDown() { break } // go down! (break if not enough room)
+			} else {
+				x++ // otherwise just move the cursor to the right
+			}
 		}
+
+		if goDown() { break }
 	}
 }
 
@@ -76,7 +82,7 @@ func (sd *slideDeck) drawBar() {
 		style := tcell.StyleDefault.Underline(true)
 		info := fmt.Sprintf("%d/%d", sd.card + 1, len(sd.deck))
 
-		draw.AddRunes(sd.screen, style, 0, sd.maxHeight+1, []rune(info))
+		draw.AddString(sd.screen, style, 0, sd.maxHeight+1, info)
 	}
 }
 
