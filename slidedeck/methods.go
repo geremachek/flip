@@ -3,7 +3,6 @@ package slidedeck
 import (
 	"fmt"
 	"github.com/gdamore/tcell"
-	"github.com/geremachek/flip/draw"
 )
 
 // Resize if it the terminal is out of sync with the program
@@ -82,7 +81,7 @@ func (sd *slideDeck) drawBar() {
 		style := tcell.StyleDefault.Underline(true)
 		info := fmt.Sprintf("%d/%d", sd.card + 1, len(sd.deck))
 
-		draw.AddString(sd.screen, style, 0, sd.maxHeight+1, info)
+		addString(sd.screen, style, 0, sd.maxHeight+1, info)
 	}
 }
 
