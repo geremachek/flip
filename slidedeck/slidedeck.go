@@ -24,6 +24,6 @@ func NewSlideDeck(d [][]string, bv bool) (*slideDeck, error) {
 
 		return &slideDeck { d, 0, bv, w, h, s }, nil
 	} else {
-		return &slideDeck{}, err
+		return nil, err
 	}
 }
