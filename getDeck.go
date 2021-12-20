@@ -4,6 +4,7 @@ import (
 	"os"
 	"io"
 	"bufio"
+	//"errors"
 	"strings"
 )
 
@@ -15,13 +16,21 @@ func getDeck(files []string) ([][]string, error) {
 	var deck [][]string
 
 	for _, f := range files {
-		reader, err := os.Open(f)
+		sFile, err := os.Open(f)
 
 		if err != nil {
 			return nil, err
 		}
 
-		deck = append(deck, processSlide(reader)...)
+		// if the file is a directory, skip over it!
+
+		if info, err := sFile.Stat(); err == nil {
+			if info.IsDir() {
+				continue
+			}
+		}
+
+		deck = append(deck, processSlide(sFile)...)
 	}
 
 	return deck, nil
