@@ -9,11 +9,6 @@ func (sd *slideDeck) Start() error {
 			running bool = true
 		)
 
-		sd.drawFile()
-		sd.drawBar()
-
-		sd.screen.Show()
-
 		for running {
 			input = sd.screen.PollEvent()
 

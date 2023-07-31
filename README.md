@@ -1,12 +1,11 @@
 # flip
 
-A simple command that lets you "flip" through files
+A simple command that lets you "flip" through files or text from stdin
 
 **Usage:**
 
 ```
 flip [FILE...]
-  -s	Read slides from stdin
 ```
 
 **Keybinds:**
